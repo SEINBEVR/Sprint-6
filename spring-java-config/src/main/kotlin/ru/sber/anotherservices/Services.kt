@@ -5,6 +5,6 @@ import org.springframework.stereotype.Service
 @Service
 class FourthService {
     override fun toString(): String {
-        return "I am anotherFourthService"
+        return "I am fourthService"
     }
 }
