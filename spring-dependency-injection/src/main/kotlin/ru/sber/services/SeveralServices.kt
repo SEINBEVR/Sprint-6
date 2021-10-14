@@ -37,6 +37,6 @@ class SeveralBeanInjectionService {
 class SeveralServicesConfig {
     @Bean
     fun services(): ArrayList<ServiceInterface> {
-        return arrayListOf(FirstServiceImpl())
+        return arrayListOf(FirstServiceImpl(), SecondServiceImpl())
     }
 }
