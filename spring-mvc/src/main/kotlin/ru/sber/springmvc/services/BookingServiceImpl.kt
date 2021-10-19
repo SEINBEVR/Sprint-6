@@ -8,7 +8,7 @@ import ru.sber.springmvc.dto.AddressBook
 @Service
 class BookingServiceImpl: BookingService {
 
-    private var addressBook = AddressBook(bookOfAddresses = ConcurrentHashMap(), indexOfIds = 0)
+    private var addressBook = AddressBook(bookOfAddresses = ConcurrentHashMap())
 
     override fun addAddress(address: Address) {
         addressBook.addAddressToBook(address)
@@ -19,11 +19,11 @@ class BookingServiceImpl: BookingService {
     }
 
     override fun getAddress(id: Int): Address? {
-        return addressBook.bookContainerParam.get(id)
+        return addressBook.bookContainerParam[id]
     }
 
     override fun updateAddress(address: Address, id: Int) {
-        addressBook.bookContainerParam.put(id, address)
+        addressBook.bookContainerParam[id] = address
     }
 
     override fun deleteAddress(id: Int) {

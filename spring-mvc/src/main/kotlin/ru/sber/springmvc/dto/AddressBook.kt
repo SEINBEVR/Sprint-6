@@ -2,16 +2,13 @@ package ru.sber.springmvc.dto
 
 import java.util.concurrent.ConcurrentHashMap
 
-class AddressBook(bookOfAddresses: ConcurrentHashMap<Int, Address> ,indexOfIds: Int) {
+class AddressBook(bookOfAddresses: ConcurrentHashMap<Int, Address>) {
 
     var bookContainerParam: ConcurrentHashMap<Int, Address>
         init {
             bookContainerParam = bookOfAddresses
         }
-    var indexOfIdsParam: Int
-        init {
-            indexOfIdsParam = indexOfIds
-        }
+    var indexOfIdsParam = 0
 
     fun addAddressToBook(address: Address) {
         bookContainerParam[indexOfIdsParam++] = address
