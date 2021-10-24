@@ -14,28 +14,21 @@ class MvcController @Autowired constructor(val bookingService: BookingService) {
 
     @RequestMapping("/add", method = [RequestMethod.GET])
     fun addAddressGetPage(): String {
-        return "add"
+        return "create"
     }
 
     @RequestMapping("/add", method = [RequestMethod.POST])
     fun addAddress(@ModelAttribute form: Address, model: Model): String {
-        bookingService.addAddress(
-            Address(
-                name = form.name,
-                surname = form.surname,
-                address = form.address,
-                telephoneNumber = form.telephoneNumber
-            )
-        )
+        bookingService.addAddress(form)
         model.addAttribute("action", "Вы успешно добавили запись")
         return "result"
     }
 
     @RequestMapping("/list", method = [RequestMethod.GET])
-    fun getAddresses(model: Model): String {
-        val addresses = bookingService.getAddresses()
+    fun getAddresses(@RequestParam(required = false) allParams: Map<String, String>, model: Model): String {
+        val addresses = bookingService.getAddresses(allParams)
         model.addAttribute("addresses", addresses)
-        return "list"
+        return "addresses"
     }
 
     @RequestMapping("/{id}/view", method = [RequestMethod.GET])
@@ -43,13 +36,13 @@ class MvcController @Autowired constructor(val bookingService: BookingService) {
         val addresses = ConcurrentHashMap<Int, Address?>()
         bookingService.getAddress(id)?.let { addresses.put(id, it) }
         model.addAttribute("addresses", addresses)
-        return "list"
+        return "addresses"
     }
 
     @RequestMapping("/{id}/edit", method = [RequestMethod.GET])
     fun updateAddressGetPage(@PathVariable("id") id: Int, model: Model): String {
         model.addAttribute("id", id.toString())
-        return "edit"
+        return "update"
     }
 
     @RequestMapping("/{id}/edit")
@@ -58,7 +51,7 @@ class MvcController @Autowired constructor(val bookingService: BookingService) {
             name = form.name,
             surname = form.surname,
             address = form.address,
-            telephoneNumber = form.telephoneNumber
+            telephone = form.telephone
         )
         )
         model.addAttribute("action", "Вы успешно обновили запись")

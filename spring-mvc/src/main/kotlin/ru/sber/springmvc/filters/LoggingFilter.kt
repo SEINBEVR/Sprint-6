@@ -16,24 +16,24 @@ class LoggingFilter: HttpFilter() {
 
     override fun init(filterConfig: FilterConfig) {
         this.context = filterConfig.servletContext
-        this.context.log("RequestLoggingFilterInitialized")
+        this.context.log("LoggingFilter initialized")
     }
 
     override fun doFilter(req: HttpServletRequest?, resp: HttpServletResponse?, chain: FilterChain?) {
         val method: String = req!!.method
         val uri: String = req.requestURI
-        this.context.log("Requested Resource:: $method $uri")
+        this.context.log("Requested Resource :: $method $uri")
         val params: Enumeration<String> = req.parameterNames
 
         while(params.hasMoreElements()) {
             val name = params.nextElement()
             val value = req.getParameter(name)
-            this.context.log(req.remoteAddr + "::Request Params::{" + name + "=" + value + "}")
+            this.context.log("${req.remoteAddr} :: Request Params :: {$name = $value}")
         }
         val cookies = req.cookies
         if (cookies != null) {
             for (cookie: Cookie in cookies) {
-                this.context.log(req.remoteAddr + "::Cookie:: {" + cookie.name + " , " + cookie.value + "}")
+                this.context.log("${req.remoteAddr} :: Cookie :: {${cookie.name} , ${cookie.value}}")
             }
         }
         chain!!.doFilter(req, resp)

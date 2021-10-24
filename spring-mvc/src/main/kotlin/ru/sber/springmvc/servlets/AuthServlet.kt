@@ -1,15 +1,12 @@
 package ru.sber.springmvc.servlets
 
-import java.util.*
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@WebServlet(
-    "/login"
-)
+@WebServlet(urlPatterns = ["/login"])
 class AuthServlet: HttpServlet() {
     private val username = "admin"
     private val password = "admin"
@@ -19,7 +16,7 @@ class AuthServlet: HttpServlet() {
         val passwordPost = req?.getParameter("password")
 
         if(usernamePost.equals(username) && passwordPost.equals(password)) {
-            val cookie = Cookie("auth", Calendar.getInstance().timeInMillis.toString())
+            val cookie = Cookie("auth", System.currentTimeMillis().toString())
             resp!!.addCookie(cookie)
             resp.sendRedirect("/app/add")
         } else {
@@ -31,6 +28,16 @@ class AuthServlet: HttpServlet() {
     }
 
     override fun doGet(req: HttpServletRequest?, resp: HttpServletResponse?) {
-        req!!.getRequestDispatcher("/auth.html").forward(req, resp)
+        val cookies = req!!.cookies
+        if(cookies != null) {
+            for(cookie in cookies) {
+                if(cookie.name == "auth" && cookie.value < System.currentTimeMillis().toString()) {
+                    resp!!.contentType = "text/html"
+                    val pw = resp.writer
+                    pw.println("<font color=green>You already have authorized.</font>")
+                }
+            }
+        } else
+        req.getRequestDispatcher("/auth.html").forward(req, resp)
     }
 }

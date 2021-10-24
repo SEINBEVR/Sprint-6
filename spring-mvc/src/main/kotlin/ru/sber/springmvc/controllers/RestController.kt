@@ -14,13 +14,13 @@ import java.util.concurrent.ConcurrentHashMap
 class RestController @Autowired constructor(val bookingService: BookingService) {
 
     @PostMapping("/add")
-    fun addAddress(@RequestBody address: Address) {
-        bookingService.addAddress(address)
+    fun addAddress(@RequestBody address: Address): ResponseEntity<*> {
+        return ResponseEntity(bookingService.addAddress(address), HttpStatus.CREATED)
     }
 
     @GetMapping("/list")
-    fun getAddresses(): ResponseEntity<ConcurrentHashMap<Int, Address>> {
-        val ads = bookingService.getAddresses()
+    fun getAddresses(@RequestParam(required = false) allParams: Map<String, String>): ResponseEntity<ConcurrentHashMap<Int, Address>> {
+        val ads = bookingService.getAddresses(allParams)
         return ResponseEntity(ads, HttpStatus.OK)
     }
 
@@ -31,12 +31,12 @@ class RestController @Autowired constructor(val bookingService: BookingService) 
     }
 
     @PutMapping("/{id}/edit")
-    fun updateAddress(@PathVariable("id") id: Int, @RequestBody address: Address) {
-        bookingService.updateAddress(id = id, address = address)
+    fun updateAddress(@PathVariable("id") id: Int, @RequestBody address: Address): ResponseEntity<*> {
+        return ResponseEntity(bookingService.updateAddress(id = id, address = address), HttpStatus.OK)
     }
 
     @DeleteMapping("/{id}/delete")
-    fun deleteAddress(@PathVariable("id") id: Int) {
-        bookingService.deleteAddress(id)
+    fun deleteAddress(@PathVariable("id") id: Int): ResponseEntity<*> {
+        return ResponseEntity(bookingService.deleteAddress(id), HttpStatus.OK)
     }
 }

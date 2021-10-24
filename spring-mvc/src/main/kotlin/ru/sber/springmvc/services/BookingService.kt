@@ -5,14 +5,16 @@ import java.util.concurrent.ConcurrentHashMap
 
 interface BookingService {
 
-    fun addAddress(address: Address)
+    fun addAddress(address: Address): Address
 
-    fun getAddresses(): ConcurrentHashMap<Int, Address>
+    fun getAddresses(allParams: Map<String, String>): ConcurrentHashMap<Int, Address>
 
     fun getAddress(id: Int): Address?
 
-    fun updateAddress(address: Address, id: Int)
+    fun updateAddress(address: Address, id: Int): Address
 
-    fun deleteAddress(id: Int)
+    fun deleteAddress(id: Int): Address
+
+    fun getId(address: Address): Int?
 
 }
