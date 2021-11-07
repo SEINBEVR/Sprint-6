@@ -1,5 +1,6 @@
 package ru.sber.springmvc.services
 
+import org.springframework.security.access.annotation.Secured
 import org.springframework.stereotype.Service
 import java.util.concurrent.ConcurrentHashMap
 import ru.sber.springmvc.dto.Address
@@ -57,6 +58,7 @@ class BookingServiceImpl: BookingService {
         return address
     }
 
+    @Secured("ROLE_ADMIN")
     override fun deleteAddress(id: Int): Address {
         val tmp = bookContainer[id]
         bookContainer.remove(id)

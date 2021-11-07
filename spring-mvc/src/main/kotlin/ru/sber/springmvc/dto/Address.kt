@@ -1,6 +1,5 @@
 package ru.sber.springmvc.dto
 
-
 data class Address(
     var name: String?,
     var surname: String?,
