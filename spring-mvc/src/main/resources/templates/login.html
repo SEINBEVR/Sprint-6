@@ -1,12 +1,19 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login page</title>
+</head>
 <body>
-<form method="post" action="/login">
+<form method="post" action="/perform-login">
     <input name="username" placeholder="Type username here"/>
     <p>
     </p>
     <input name="password" placeholder="Type password here"/>
     <p>
+        <input
+                type="hidden"
+                th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}" />
         <input role="button" type="submit" value="авторизоваться">
     </p>
 </form>

@@ -19,7 +19,7 @@ class RestController @Autowired constructor(val bookingService: BookingService) 
     }
 
     @GetMapping("/list")
-    fun getAddresses(@RequestParam(required = false) allParams: Map<String, String>): ResponseEntity<ConcurrentHashMap<Int, Address>> {
+    fun getAddresses(@RequestParam(required = false) allParams: Map<String, String>): ResponseEntity<Map<Int, Address>> {
         val ads = bookingService.getAddresses(allParams)
         return ResponseEntity(ads, HttpStatus.OK)
     }

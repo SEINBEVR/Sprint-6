@@ -13,6 +13,10 @@
     </p>
     <input name="telephone" placeholder="Type telephone number here"/>
     <p>
+        <input
+                type="hidden"
+                th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}" />
         <button>Send</button>
     </p>
 </form>

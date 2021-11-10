@@ -1,9 +1,11 @@
 package ru.sber.springmvc.dto
 
 data class Address(
-    var name: String?,
-    var surname: String?,
-    var address: String?,
-    var telephone: String?
-)
+    val name: String?,
+    val surname: String?,
+    val address: String?,
+    val telephone: String?
+) {
+    var id: Int = -1
+}
 

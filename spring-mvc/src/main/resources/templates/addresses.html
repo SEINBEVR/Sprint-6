@@ -10,7 +10,7 @@
             <th>Phone number</th>
         </tr>
       <tr th:each="mapItem:${addresses}">
-          <td th:utext="${mapItem.key}">id</td>
+          <td th:utext="${mapItem.value.id}">id</td>
           <td th:utext="${mapItem.value.name}">Name</td>
           <td th:utext="${mapItem.value.surname}">Surname</td>
           <td th:utext="${mapItem.value.address}">Address</td>

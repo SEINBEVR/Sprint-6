@@ -60,8 +60,15 @@ class MvcController @Autowired constructor(val bookingService: BookingService) {
 
     @RequestMapping("/{id}/delete")
     fun deleteAddress(@PathVariable("id") id: Int, model: Model): String {
-        model.addAttribute("action", "Вы успешно удалили запись")
-        bookingService.deleteAddress(id)
+
+        val tmp = bookingService.deleteAddress(id)
+        if(tmp != null) {
+            model.addAttribute("action", "Вы успешно удалили запись")
+        }
+        else {
+            model.addAttribute("action", "Вы пытаетесь удалить несущствующую запись")
+        }
         return "result"
+        }
     }
-}
+

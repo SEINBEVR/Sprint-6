@@ -8,68 +8,38 @@ import ru.sber.springmvc.dto.Address
 @Service
 class BookingServiceImpl: BookingService {
 
-    var bookContainer = ConcurrentHashMap<Int, Address>()
-    var indexOfIds = 0
-
     override fun addAddress(address: Address): Address {
+        address.id = indexOfIds
         bookContainer[indexOfIds] = address
         return bookContainer[indexOfIds++]!!
     }
 
-    override fun getAddresses(allParams: Map<String, String>): ConcurrentHashMap<Int, Address> {
-        val resultSearch = ConcurrentHashMap<Int, Address>()
-
-        val id = allParams.getOrDefault("id", "undefined")
-        val name = allParams.getOrDefault("name", "undefined")
-        val surname = allParams.getOrDefault("surname", "undefined")
-        val address = allParams.getOrDefault("address", "undefined")
-        val telephone = allParams.getOrDefault("telephone", "undefined")
-
-        for ((k, v) in bookContainer){
-            if (id != "undefined"){
-                if (k != id.toInt())
-                    continue
-            }
-            if (name != "undefined"){
-                if (v.name != name)
-                    continue
-            }
-            if (surname != "undefined"){
-                if (v.surname != surname)
-                    continue
-            }
-            if (address != "undefined"){
-                if (v.address != address)
-                    continue
-            }
-            if (telephone != "undefined"){
-                if (v.telephone != telephone)
-                    continue
-            }
-            resultSearch[resultSearch.size] = v
-        }
-        return resultSearch
+    override fun getAddresses(allParams: Map<String, String>): Map<Int, Address> {
+        return bookContainer
+            .filterValues { if(allParams.containsKey("name")) it.name == allParams.get("name") else true }
+            .filterValues { if(allParams.containsKey("surname")) it.surname == allParams.get("surname") else true }
+            .filterValues { if(allParams.containsKey("address")) it.address == allParams.get("address") else true }
+            .filterValues { if(allParams.containsKey("telephone")) it.telephone == allParams.get("telephone") else true }
     }
 
     override fun getAddress(id: Int): Address? = bookContainer[id]
 
     override fun updateAddress(address: Address, id: Int): Address {
+        address.id = id
         bookContainer[id] = address
         return address
     }
 
     @Secured("ROLE_ADMIN")
-    override fun deleteAddress(id: Int): Address {
+    override fun deleteAddress(id: Int): Address? {
         val tmp = bookContainer[id]
-        bookContainer.remove(id)
-        return tmp!!
+        if(tmp != null)
+            bookContainer.remove(id)
+        return tmp
     }
 
-    override fun getId(address: Address): Int? {
-        for(pair in bookContainer.entries) {
-            if(address == pair.value)
-                return pair.key
-        }
-        return null
+    companion object {
+        var bookContainer = ConcurrentHashMap<Int, Address>()
+        var indexOfIds = 0
     }
 }
