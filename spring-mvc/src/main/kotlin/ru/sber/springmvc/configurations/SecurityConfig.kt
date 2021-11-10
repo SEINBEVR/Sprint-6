@@ -43,8 +43,8 @@ class SecurityConfig(private val dataSource: DataSource): WebSecurityConfigurerA
             .passwordParameter("password")
             .defaultSuccessUrl("/app/add")
                 .and()
-            .csrf().disable() //отключить csrf для тестов ControllersRestIntegrationTest
-//            .csrf().ignoringAntMatchers("/api/**") //добавить игнорирование csrf для /api/ запоросов на бою
+//            .csrf().disable() //отключить csrf для тестов ControllersRestIntegrationTest
+            .csrf().ignoringAntMatchers("/api/**") //добавить игнорирование csrf для /api/ запоросов на бою
     }
 
     @Bean

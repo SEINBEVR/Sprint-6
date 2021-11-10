@@ -27,9 +27,6 @@ class LoginPageTest {
     @Autowired
     private lateinit var restTemplate: TestRestTemplate
 
-    @Autowired
-    private lateinit var bookingService: BookingService
-
     private val headers = HttpHeaders()
 
     private fun url(ep: String) = "http://localhost:$port/$ep"
